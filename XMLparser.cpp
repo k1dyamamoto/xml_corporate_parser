@@ -1,8 +1,5 @@
-#include <string>
-#include <fstream>
-#include <vector>
-#include <iostream>
-#include "objects.h"
+#include "xmlparser.h"
+
 
 std::string cut(std::string &s)
 {
@@ -16,11 +13,10 @@ bool contains(const std::string &str, const std::string &sub)
         return (str.find(sub) != std::string::npos);
 }
 
-int main()
+void read_xml(const std::string &input_file)
 {
-        std::ifstream xml("example.xml");
+        std::ifstream xml(input_file);
         std::string curline;
-        std::vector<Department*> tree;
         int cur_dept = -1;
         while (getline(xml, curline)) {
                 if (contains(curline, "<department ")) {
@@ -50,27 +46,34 @@ int main()
                                 }
                         }
                         tree[cur_dept]->add_emp(new Employee(emp_salary, emp_name,
-                                                        emp_surname, emp_middlename));
+                                                        emp_surname, emp_middlename, emp_function));
                 }
         }
+}
 
+void writexml(const std::string &output_file)
+{
+        std::ofstream xml(output_file);
+        xml << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<departments>\n";
         for (auto &dep : tree) {
-                std::cout << dep->get_name() << std::endl;
+                xml << "   <department name=\"";
+                xml << dep->get_name() << "\">\n";
                 auto emps = dep->get_emp();
-                for (auto &emp : emps)
-                        std::cout << "| " << emp->get_surname() << " "
-                                << emp->get_name() << " "
-                                << emp->get_middlename() << std::endl;
-        }
-        /*      not yet son
-        std::string command;
-        std::vector<std::string> command_buffer;
-        while (std::cin >> command) {
-                if (command == "add") {
-                        add_handler();
+                xml << "      <employments>\n";
+                for (auto &emp : emps) {
+                        xml << "         <employment>\n"
+                        << "            <surname>"
+                        << emp->get_surname() << "<surname>\n"
+                        << "            <name>"
+                        << emp->get_name() << "<\\name>\n"
+                        << "            <middleName>"
+                        << emp->get_middlename() << "<\\middleName>\n"
+                        << "            <function>"
+                        << emp->get_function() << "<\\function>\n"
+                        << "            <salary>"
+                        << emp->get_salary() << "<\\salary>\n";
                 }
-        }*/
 
-        for (auto &idx : tree)
-                delete idx;
+        }
+
 }
