@@ -9,3 +9,7 @@
 * undo
 * write
 * quit
+### Сборка: ###
+```
+make exec
+```
