@@ -63,17 +63,19 @@ void writexml(const std::string &output_file)
                 for (auto &emp : emps) {
                         xml << "         <employment>\n"
                         << "            <surname>"
-                        << emp->get_surname() << "<surname>\n"
+                        << emp->get_surname() << "</surname>\n"
                         << "            <name>"
-                        << emp->get_name() << "<\\name>\n"
+                        << emp->get_name() << "</name>\n"
                         << "            <middleName>"
-                        << emp->get_middlename() << "<\\middleName>\n"
+                        << emp->get_middlename() << "</middleName>\n"
                         << "            <function>"
-                        << emp->get_function() << "<\\function>\n"
+                        << emp->get_function() << "</function>\n"
                         << "            <salary>"
-                        << emp->get_salary() << "<\\salary>\n";
+                        << emp->get_salary() << "</salary>\n"
+                        << "         </employment>\n";
                 }
-
+                xml << "     </employments>\n" << "   </department>\n";
         }
+        xml << "</departments>";
 
 }
