@@ -13,3 +13,7 @@
 ```
 make exec
 ```
+## Для Windows: ##
+```
+g++ xmlparser.cpp objects.cpp commands.cpp -o exec
+```
