@@ -7,6 +7,7 @@
 * delete employee
 * print
 * undo
+* redo
 * write
 * quit
 ### Сборка: ###
