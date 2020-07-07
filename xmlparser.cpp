@@ -13,7 +13,7 @@ bool contains(const std::string &str, const std::string &sub)
         return (str.find(sub) != std::string::npos);
 }
 
-void read_xml(const std::string &input_file)
+void read_xml(const std::string &input_file, std::vector<Department*> &tree)
 {
         std::ifstream xml(input_file);
         std::string curline;
@@ -51,7 +51,7 @@ void read_xml(const std::string &input_file)
         }
 }
 
-void writexml(const std::string &output_file)
+void writexml(const std::string &output_file, const std::vector<Department*> &tree)
 {
         std::ofstream xml(output_file);
         xml << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<departments>\n";

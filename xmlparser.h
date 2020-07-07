@@ -8,8 +8,8 @@
 #include "objects.h"
 #include "commands.h"
 
-void read_xml(const std::string &input_file);
-void writexml(const std::string &output_file);
+void read_xml(const std::string &input_file, std::vector<Department*> &tree);
+void writexml(const std::string &output_file, const std::vector<Department*> &tree);
 
 
 #endif

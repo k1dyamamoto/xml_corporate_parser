@@ -6,9 +6,10 @@
 int main()
 {
         std::string command, inp;
+        std::vector<Department*> tree;
         std::cout << "Enter xml file name:\n";
         std::cin >> inp;
-        read_xml(inp);
+        read_xml(inp, tree);
         while (std::cin >> command) {
                 if  (command == "add") {
                         std::string type;
@@ -18,7 +19,7 @@ int main()
                                 std::cout << "Enter name:\n";
                                 std::cin.ignore(1, '\n');
                                 getline(std::cin, name);
-                                cmdbuffer.push(new AddDepartmentCommand(name));
+                                cmdbuffer.push(new AddDepartmentCommand(name, tree));
                         } else if (type == "employee") {
                                 std::string name, surname, middlename,
                                                 dep_name, function;
@@ -37,14 +38,16 @@ int main()
                                 std::cout << "Enter function:\n";
                                 std::cin >> function;
                                 cmdbuffer.push(new AddEmployeeCommand(dep_name, name,
-                                                surname, middlename, function, salary));
+                                                surname, middlename, function, salary, tree));
                         }
                 } else if (command == "print") {
-                        print_handler();
+                        print_handler(tree);
                 } else if (command == "quit") {
                         break;
                 } else if (command == "undo") {
-                        cmdbuffer.pop();
+                        cmdbuffer.pop(tree);
+                } else if (command == "redo") {
+                        cmdbuffer.redo(tree);
                 } else if (command == "delete") {
                         std::string type;
                         std::cin >> type;
@@ -53,7 +56,7 @@ int main()
                                 std::cout << "Enter name:\n";
                                 std::cin.ignore(1, '\n');
                                 getline(std::cin, name);
-                                cmdbuffer.push(new DelDepartmentCommand(name));
+                                cmdbuffer.push(new DelDepartmentCommand(name, tree));
                         } else if (type == "employee") {
                                 std::string name, surname, middlename, dep_name;
                                 int salary;
@@ -67,19 +70,20 @@ int main()
                                 std::cout << "Enter middlename:\n";
                                 std::cin >> middlename;
                                 cmdbuffer.push(new DelEmployeeCommand(dep_name, name,
-                                                surname, middlename));
+                                                surname, middlename, tree));
                         }
                 } else if (command == "write") {
                         std::string wf;
                         std::cout << "Enter output filename: \n";
                         std::cin >> wf;
-                        writexml(wf);
+                        writexml(wf, tree);
                 } else {
                         std::cout << "unknown command\n";
                 }
         }
 
-        for (auto &idx : tree)
+        for (auto idx : tree)
                 delete idx;
+        tree.clear();
 
 }

@@ -41,6 +41,5 @@ public:
         const std::vector<Employee*> &get_emp() const;
 };
 
-extern std::vector<Department*> tree;
 
 #endif
